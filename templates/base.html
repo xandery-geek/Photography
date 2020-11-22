@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon shortcut" type="image/ico" href="{% static 'image/favicon.png' %}">
+    <title>Photograph & Gallery</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/site.css' %}" type="text/css" />
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark site-navbar">
+        <a class="navbar-brand site-brand" href="{% url 'album' 'photograph' %}">Photograph</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between" style="height: 100%" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto" style="height: 100%">
+                <li class="site-nav-item site-active">
+                    <a class="site-nav-link" href="{% url 'album' 'photograph' %}">Photograph<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="site-nav-item">
+                    <a class="site-nav-link" href="{% url 'album' 'awesome' %}">Awesome</a>
+                </li>
+                <li class="site-nav-item">
+                    <a class="site-nav-link" href="{% url 'album' 'gallery' %}">Gallery</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% block content %}
+    {% endblock %}
+
+    <footer class="py-3 bg-dark site-footer">
+        <div class="container">
+            <div class="small text-center site-footer-link">
+                <a href="{% url 'about' %}" target="_blank">About Site</a>
+                <a href="http://blog.jiayuanxu.com:5200" target="_blank">My Blog</a>
+                <a href="https://github.com/yx1302317313" target="_blank">My Github</a>
+            </div>
+            <div class="small text-center">Copyright © 2020 XuYuan</div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+
+</body>
+</html>

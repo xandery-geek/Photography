@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="site-blur-section site-album-title">
+        <h3>{{ album.title }}</h3>
+        <p>
+            {{ album.desc }}
+        </p>
+        <div class="site-blur-div">
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="row site-photo-container">
+            {% for image in  object_list %}
+            <div class="col-sm-12 col-md-6 col-lg-4">
+                <div class="site-photo-card">
+                    <img class="site-img-fit-cover" src="{{ image.thumb.url }}" alt="">
+                    <div class="site-photo-card-hover">
+                        <p class="site-photo-desc">{{ image.desc }}</p>
+                        <div class="site-photo-btn-group site-photo-btn-group-rb">
+                            <span class="site-photo-btn" data-content="" onclick="goto_link('{% url 'image_detail' image.id %}');">
+                                <i class="fa fa-arrows-alt" style="color: rgb(14, 131, 205);"></i>
+                                <em class="site-photo-btn-text">大图</em>
+                            </span>
+                            <span id="image-like-{{ image.id }}" class="site-photo-btn" data-content="" onclick="image_like({{ image.id }});">
+                                <i class="fa fa-heart" style="color: rgb(233, 113, 133)"></i>
+                                <em class="site-photo-btn-text">{{ image.like_num }}</em>
+                            </span>
+                            <span class="site-photo-btn" onclick="goto_link('{% url 'image_operate' 'download' image.id %}');">
+                                <i class="fa fa-download" style="color: rgb(233, 113, 133)"></i>
+                                <em class="site-photo-btn-text">下载</em>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="site-pagination-nav">
+        {% if page_obj.number <= 1 %}
+            <a class="pagination-a disabled">上一页</a>
+        {% else %}
+            <a class="pagination-a" href="{% url 'album_detail' album.id page_obj.number|add:-1 %}">上一页</a>
+        {% endif %}
+        <span>
+            {{ page_obj.number }}/{{ paginator.num_pages }}
+        </span>
+        {% if page_obj.number == paginator.num_pages%}
+            <a class="pagination-a disabled">下一页</a>
+        {% else %}
+            <a class="pagination-a" href="{% url 'album_detail' album.id page_obj.number|add:1 %}">下一页</a>
+        {% endif %}
+    </div>
+
+    <div class="site-blur-section site-album-date">
+        <p>Created Date: {{ album.created|date:"d M Y" }}</p>
+        <p>Modify Date: {{ album.modified|date:"d M Y" }}</p>
+        <div class="site-blur-div"></div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="{% static 'js/site.js' %}"></script>
+{% endblock %}

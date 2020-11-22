@@ -1,0 +1,322 @@
+body {
+    /*background: rgb(185, 246, 246);*//*设置颜色背景*/
+    background: url(/static/image/background.jpg) 50% center / cover no-repeat fixed rgb(255, 255, 255);
+}
+
+.site-navbar{
+    padding: 0 10%;
+    height: 4rem;
+}
+
+.site-brand{
+    font-size: 1.5rem;
+}
+
+.site-nav-item{
+    margin: auto;
+    padding: 20px 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.site-nav-item:hover{
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.site-active{
+
+}
+
+.site-nav-link{
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-nav-link:hover{
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-slide{
+    width: 100%;
+    height: 400px;
+}
+
+.site-img-fit-cover{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.site-slide-title{
+    top: 30%;
+}
+
+.site-footer{
+    color: #ffffff;
+    height: 100px;
+}
+
+.site-footer-link{
+    margin-bottom: 1.5rem;
+}
+
+.site-footer-link a{
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.site-footer-link a:hover{
+    color: #ffffff;
+    text-decoration: underline #ffffff;
+    cursor: pointer;
+}
+
+.site-album-container{
+    padding-left: 50px;
+    padding-right: 50px;
+    margin: 50px auto 100px;
+}
+
+.site-album-card{
+    background: #ffffff;
+    border-radius: 0.8rem;
+    width: 100%;
+    min-height: 300px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.site-album-img{
+    height: 250px;
+    width: 100%;
+}
+
+.site-album-text{
+    padding: 20px 15px;
+}
+
+.site-album-text > h4{
+    font-weight: bold;
+}
+
+.site-album-text > p{
+}
+
+.site-album-more{
+    border-top: 1px solid rgba(160, 160, 160, 0.2);
+    padding: 15px;
+}
+
+.site-album-more > a{
+    color: rgba(255, 171, 64, 1);
+    -webkit-transition: color .3s ease;
+    transition: color .3s ease;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.site-album-more > a:hover{
+    color: rgba(255, 171, 64, 0.6);
+    cursor: pointer;
+}
+
+.site-blur-section{
+    position: relative;
+    z-index: 1;
+    background-color:  #343a40;
+    color: rgb(255, 255, 255);
+    overflow: hidden;
+}
+
+.site-blur-div{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    filter: blur(40px);
+    background: url(/static/image/background.jpg) 50% center / cover no-repeat fixed rgb(255, 255, 255);
+    height: 100%;
+    width: 100%;
+}
+
+.site-album-title{
+    padding-top: 30px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.site-blur-section > p{
+    color: white;
+}
+
+.site-album-date{
+    padding-top: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.site-photo-container{
+    margin: 50px auto 50px auto;
+    padding: 10px;
+    width: auto;
+    background-color: #ccccff;
+}
+
+.site-photo-card{
+    position: relative;
+    width: 100%;
+    height: 250px;
+    margin-right: 0;
+    margin-bottom: 10px;
+}
+
+.site-photo-card-hover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    transition: .15s;
+    -moz-transition: .15s;
+    -webkit-transition: .15s;
+}
+
+.site-photo-card-hover:hover {
+    opacity: 1;
+}
+
+.site-photo-desc{
+    padding-left: 5px;
+    padding-right: 5px;
+    color: white;
+}
+
+.site-photo-btn-group{
+    display: flex;
+    position: absolute;
+}
+
+.site-photo-btn-group-rb{
+    bottom: 10px;
+    right: 10px;
+}
+
+.site-photo-btn-group-lt{
+    top: 10px;
+    left: 10px;
+}
+
+.site-photo-btn-group-rt{
+    top: 10px;
+    right: 10px;
+}
+
+.site-photo-btn-text{
+    padding-left: 5px;
+}
+
+.site-photo-btn{
+    display: inline-block;
+    width: 75px;
+    padding-left: 10px;
+    margin-right: 5px;
+    height: 35px;
+    line-height: 35px;
+    font-size: 0.8rem;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 0.5rem;
+    color: rgb(14, 131, 205);
+}
+
+.site-photo-btn:hover{
+    cursor: pointer;
+    background-color: #ffffff;
+}
+
+.site-detail-desc{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 0.5rem 2rem 2rem 2rem;
+    display: block;
+    width: 100%;
+    color: #fff;
+    background: rgba(1, 1, 1, 0.5);
+}
+
+.photo-item{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background-size: cover;
+    background-position: center;
+
+    -webkit-transition: all .5s ease;
+    transition: all .5s ease;
+}
+
+.site-pagination-nav{
+    text-align: center;
+    padding: 1rem 0;
+}
+
+.site-pagination-nav span{
+    font-size: 1.2rem;
+    color: #212529;
+}
+
+.pagination-a{
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #212529;
+    border: 1px solid rgba(255, 255, 255, 0.95);
+    cursor: pointer;
+    -webkit-border-radius: .4rem;
+    border-radius: .4rem;
+    text-align: center;
+    padding: 0.2rem .5rem;
+    margin-left: 0.3rem;
+    margin-right: 0.3rem;
+}
+
+.pagination-a:hover{
+    background-color: rgba(255, 255, 255, 1);
+    border: 1px solid rgba(255, 255, 255, 1);
+    text-decoration: none;
+    color: #212529;
+}
+
+.pagination-a.disabled{
+    color: #888888;
+}
+.pagination-a.disabled:hover{
+    color: #888888;
+    background-color: rgba(255, 255, 255, 0.85);
+}
+
+@media screen and (max-width: 900px) {
+    .site-album-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .site-album-date{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .site-album-title{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

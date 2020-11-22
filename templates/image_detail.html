@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon shortcut" type="image/ico" href="{% static 'image/favicon.png' %}">
+    <title>摄影小站</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" type="text/css" />
+    <link rel="stylesheet" href="{% static 'fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/site.css' %}" type="text/css">
+</head>
+
+<body style="background-image: none">
+    <div class="photo-item" style="background-image: url('{{ image.image.url }}');">
+    </div>
+    <div class="site-photo-btn-group site-photo-btn-group-lt">
+        <span class="site-photo-btn" data-content="" onclick="window.history.back();">
+            <i class="fa fa-chevron-left" style="color: rgb(14, 131, 205)"></i>
+            <em class="site-photo-btn-text">BACK</em>
+        </span>
+    </div>
+    <div class="site-photo-btn-group site-photo-btn-group-rt">
+        <span id="image-like-{{ image.id }}" class="site-photo-btn" data-content="" onclick="image_like({{ image.id }});">
+            <i class="fa fa-heart" style="color: rgb(233, 113, 133)"></i>
+            <em class="site-photo-btn-text">{{ image.like_num }}</em>
+        </span>
+        <span class="site-photo-btn" onclick="goto_link('{% url 'image_operate' 'download' image.id %}');">
+            <i class="fa fa-download" style="color: rgb(233, 113, 133)"></i>
+            <em class="site-photo-btn-text">下载</em>
+        </span>
+    </div>
+
+    <div class="site-detail-desc">
+        <h3>{{ image.desc }}</h3>
+        <p>Created Date:{{ image.created|date:"d M Y" }}</p>
+    </div>
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/site.js' %}"></script>
+</body>
+
+</html>
