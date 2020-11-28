@@ -1,3 +1,4 @@
 /media
 /.idea
+/static_collection
 db.sqlite3
