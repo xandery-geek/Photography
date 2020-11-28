@@ -17,11 +17,11 @@
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark site-navbar">
         <a class="navbar-brand site-brand" href="{% url 'album' 'photograph' %}">Photograph</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler site-navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse justify-content-between" style="height: 100%" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto" style="height: 100%">
+        <div class="collapse bg-dark navbar-collapse site-collapse justify-content-end" style="height: 100%" id="navbarSupportedContent">
+            <ul class="navbar-nav" style="height: 100%">
                 <li class="site-nav-item site-active">
                     <a class="site-nav-link" href="{% url 'album' 'photograph' %}">Photograph<span class="sr-only">(current)</span></a>
                 </li>

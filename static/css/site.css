@@ -4,12 +4,26 @@ body {
 }
 
 .site-navbar{
-    padding: 0 10%;
+    padding: 0;
     height: 4rem;
 }
 
 .site-brand{
+    margin-left: 50px;
     font-size: 1.5rem;
+}
+
+.site-navbar-toggler{
+    margin-right: 50px;
+}
+
+.site-collapse{
+    z-index: 9999;
+}
+
+.site-collapse .navbar-nav{
+    margin-left: 50px;
+    margin-right: 50px;
 }
 
 .site-nav-item{
