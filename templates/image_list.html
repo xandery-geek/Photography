@@ -20,7 +20,7 @@
             {% for image in  object_list %}
             <div class="col-sm-12 col-md-6 col-lg-4">
                 <div class="site-photo-card">
-                    <img class="site-img-fit-cover" src="{{ image.thumb.url }}" alt="">
+                    <img class="site-img-fit-cover" src="{{ image.thumb.url }}" alt="{{ image.alt }}">
                     <div class="site-photo-card-hover">
                         <p class="site-photo-desc">{{ image.desc }}</p>
                         <div class="site-photo-btn-group site-photo-btn-group-rb">
