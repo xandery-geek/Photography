@@ -41,6 +41,16 @@ def rename_image_file(image, slug):
     image.name = os.path.join(upload_to, new_name)
 
 
+def get_thumb_size(size):
+    width, height = size
+    if width > height:  # 横屏
+        width, height = HORIZON_WIDTH, HORIZON_HEIGHT
+    else:  # 竖屏
+        width, height = VERTICAL_WIDTH, VERTICAL_HEIGHT
+
+    return width, height
+
+
 @admin.register(Album)
 class AlbumModelAdmin(admin.ModelAdmin):
     form = AlbumForm
@@ -58,6 +68,11 @@ class AlbumModelAdmin(admin.ModelAdmin):
             if post_thumb and post_thumb != "":
                 rename_image_file(album.thumb, album.slug)
                 convert_to_jpeg(album.thumb)
+                with Image.open(album.thumb.path) as i:
+                    width, height = get_thumb_size(i.size)
+                    i.thumbnail((width, height), Image.ANTIALIAS)
+                    i.save(album.thumb.path, 'JPEG')
+                album.save()
 
             if form.cleaned_data['zip'] is not None:
                 zip_images = zipfile.ZipFile(form.cleaned_data['zip'])
@@ -87,12 +102,7 @@ class AlbumModelAdmin(admin.ModelAdmin):
                     thumb_filepath = '{0}/albums/{1}'.format(settings.MEDIA_ROOT, thumb_filename)
                     with Image.open(thumb_filepath) as i:
                         img.width, img.height = i.size
-                        if img.width > img.height:  # 横屏
-                            thumb_width, thumb_height = HORIZON_WIDTH, HORIZON_HEIGHT
-                        else:  # 竖屏
-                            thumb_width, thumb_height = VERTICAL_WIDTH, VERTICAL_HEIGHT
-
-                        i.thumbnail((thumb_width, thumb_height), Image.ANTIALIAS)
+                        i.thumbnail(get_thumb_size(i.size), Image.ANTIALIAS)
                         i.save(thumb_filepath, 'JPEG')
 
                     img.save()
@@ -123,23 +133,17 @@ class AlbumImageModelAdmin(admin.ModelAdmin):
             # save the new image
             rename_image_file(img.image, img.slug)
             convert_to_jpeg(img.image)
-            img.width = img.image.width
-            img.height = img.image.height
+            img.width, img.height = img.image.width, img.image.height
 
             filename = img.image.name
             img.alt = os.path.basename(filename)
 
-            if img.width > img.height:  # 横屏
-                thumb_width, thumb_height = HORIZON_WIDTH, HORIZON_HEIGHT
-            else:  # 竖屏
-                thumb_width, thumb_height = VERTICAL_WIDTH, VERTICAL_HEIGHT
-
             img_file = Image.open(img.image.path)
 
             # save image to tmp direction
-            thumb_filename = 'thumb-{0}'.format(filename)
+            thumb_filename = 'thumb-{0}'.format(img.alt)
             thumb_img = img_file.copy()
-            thumb_img.thumbnail((thumb_width, thumb_height), Image.ANTIALIAS)
+            thumb_img.thumbnail(get_thumb_size((img.width, img.height)), Image.ANTIALIAS)
 
             # save image to django file
             thumb_io = BytesIO()

@@ -62,12 +62,12 @@ def auto_delete_album_file_on_change(sender, instance, **kwargs):
         return False
 
     try:
-        old_file = AlbumImage.objects.get(pk=instance.pk).thumb
-    except AlbumImage.DoesNotExist:
+        old_file = Album.objects.get(pk=instance.pk).thumb
+    except Album.DoesNotExist:
         return False
 
     new_file = instance.thumb
-    if not old_file == new_file:
+    if old_file != new_file:
         if os.path.isfile(old_file.path):
             os.remove(old_file.path)
 
@@ -100,3 +100,30 @@ def auto_delete_image_file_on_delete(sender, instance, **kwargs):
     if instance.thumb:
         if os.path.isfile(instance.thumb.path):
             os.remove(instance.thumb.path)
+
+
+@receiver(models.signals.pre_save, sender=AlbumImage)
+def auto_delete_image_file_on_save(sender, instance, **kwargs):
+    """
+    Deletes old file from filesystem
+    when corresponding `MediaFile` object is updated
+    with new file.
+    """
+    if not instance.pk:
+        return False
+
+    try:
+        old_image = AlbumImage.objects.get(pk=instance.pk).image
+        old_thumb = AlbumImage.objects.get(pk=instance.pk).thumb
+    except AlbumImage.DoesNotExist:
+        return False
+
+    new_image = instance.image
+    new_thumb = instance.thumb
+    if old_image != new_image:
+        if os.path.isfile(old_image.path):
+            os.remove(old_image.path)
+
+    if old_thumb != new_thumb:
+        if os.path.isfile(old_thumb.path):
+            os.remove(old_thumb.path)
