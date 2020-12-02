@@ -3,6 +3,7 @@
 import os
 import uuid
 import zipfile
+import imghdr
 from datetime import datetime
 from io import BytesIO
 
@@ -14,16 +15,30 @@ from Photograph import settings
 from album.forms import AlbumForm, AlbumImageForm
 from album.models import Album, AlbumImage
 
-HORIZON_WIDTH = 320
-HORIZON_HEIGHT = 240
+HORIZON_WIDTH = 480
+HORIZON_HEIGHT = 360
 
-VERTICAL_WIDTH = 240
-VERTICAL_HEIGHT = 320
+VERTICAL_WIDTH = 360
+VERTICAL_HEIGHT = 480
 
 
 def convert_to_jpeg(img):
-    img = img.convert('JPEG')
-    return img
+    if imghdr.what(img.path) == 'jpeg':
+        return
+    with Image.open(img.path) as i:
+        i = i.convert('RGB')
+        i.save(img.path, 'JPEG')
+
+
+def rename_image_file(image, slug):
+    initial_path = image.path
+    base_path = os.path.dirname(initial_path)
+    new_name = '{0}{1}.jpg'.format(slug, str(uuid.uuid4())[-13:])
+    new_path = os.path.join(base_path, new_name)
+    os.rename(initial_path, new_path)
+
+    upload_to = os.path.dirname(image.name)
+    image.name = os.path.join(upload_to, new_name)
 
 
 @admin.register(Album)
@@ -39,6 +54,11 @@ class AlbumModelAdmin(admin.ModelAdmin):
             album.modified = datetime.now()
             album.save()
 
+            post_thumb = request.FILES.get("thumb", False)
+            if post_thumb and post_thumb != "":
+                rename_image_file(album.thumb, album.slug)
+                convert_to_jpeg(album.thumb)
+
             if form.cleaned_data['zip'] is not None:
                 zip_images = zipfile.ZipFile(form.cleaned_data['zip'])
                 for filename in sorted(zip_images.namelist()):
@@ -52,26 +72,26 @@ class AlbumModelAdmin(admin.ModelAdmin):
                     # save image
                     img = AlbumImage()
                     img.album = album
-                    img.alt = filename
                     filename = '{0}{1}.jpg'.format(album.slug, str(uuid.uuid4())[-13:])
+                    img.alt = filename
                     img.image.save(filename, content_file)
 
                     # save thumb image
                     thumb_filename = 'thumb-{0}'.format(filename)
                     img.thumb.save(thumb_filename, content_file)
 
-                    # get image size and set thumb size
-                    filepath = '{0}/albums/{1}'.format(settings.MEDIA_ROOT, filename)
-                    with Image.open(filepath) as i:
+                    convert_to_jpeg(img.image)
+                    convert_to_jpeg(img.thumb)
+
+                    # get image size and resize thumb image
+                    thumb_filepath = '{0}/albums/{1}'.format(settings.MEDIA_ROOT, thumb_filename)
+                    with Image.open(thumb_filepath) as i:
                         img.width, img.height = i.size
                         if img.width > img.height:  # 横屏
                             thumb_width, thumb_height = HORIZON_WIDTH, HORIZON_HEIGHT
                         else:  # 竖屏
                             thumb_width, thumb_height = VERTICAL_WIDTH, VERTICAL_HEIGHT
 
-                    # resize thumb image
-                    thumb_filepath = '{0}/albums/{1}'.format(settings.MEDIA_ROOT, thumb_filename)
-                    with Image.open(thumb_filepath) as i:
                         i.thumbnail((thumb_width, thumb_height), Image.ANTIALIAS)
                         i.save(thumb_filepath, 'JPEG')
 
@@ -94,25 +114,27 @@ class AlbumImageModelAdmin(admin.ModelAdmin):
             img.created = datetime.now()
             img.slug = img.album.slug
             img.album.modified = datetime.now()
+            img.save()
 
-            post_image = request.POST.get("image", False)
-            if post_image or post_image == "":
-                img.save()
+            post_image = request.FILES.get("image", False)
+            if not post_image or post_image == "":
                 return
 
             # save the new image
+            rename_image_file(img.image, img.slug)
+            convert_to_jpeg(img.image)
             img.width = img.image.width
             img.height = img.image.height
 
-            filename = str(img.image)
-            img.alt = filename
+            filename = img.image.name
+            img.alt = os.path.basename(filename)
 
             if img.width > img.height:  # 横屏
                 thumb_width, thumb_height = HORIZON_WIDTH, HORIZON_HEIGHT
             else:  # 竖屏
                 thumb_width, thumb_height = VERTICAL_WIDTH, VERTICAL_HEIGHT
 
-            img_file = Image.open(img.image)
+            img_file = Image.open(img.image.path)
 
             # save image to tmp direction
             thumb_filename = 'thumb-{0}'.format(filename)

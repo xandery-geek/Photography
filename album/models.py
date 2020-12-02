@@ -22,7 +22,7 @@ class Album(models.Model):
     category = models.PositiveIntegerField(default=GALLERY, choices=CATE_ITEMS, verbose_name="Category")
     title = models.CharField(max_length=70)
     desc = models.TextField(max_length=1024)
-    thumb = models.ImageField(upload_to='albums', blank=False)
+    thumb = models.ImageField(upload_to='covers', blank=False)
     tags = models.CharField(max_length=250)
     is_visible = models.BooleanField(default=True)
     created = models.DateTimeField(auto_now_add=True)

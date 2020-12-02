@@ -1,5 +1,5 @@
 # Photography
 
 ## Improve & Fix
-- fix dropdown menu 
-- image file rename when upload image.
+- [x] fix dropdown menu
+- [x] image file rename when upload image.
