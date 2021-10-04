@@ -51,6 +51,19 @@ def get_thumb_size(size):
     return width, height
 
 
+def filter_zip_files(filename_list):
+    # filter __MACOSX directory
+    forbidden_list = ['__MACOSX/']
+
+    def filter_func(x):
+        for forbidden_item in forbidden_list:
+            if forbidden_item in x:
+                return False
+        return True
+
+    return list(filter(filter_func, filename_list))
+
+
 @admin.register(Album)
 class AlbumModelAdmin(admin.ModelAdmin):
     form = AlbumForm
@@ -76,7 +89,7 @@ class AlbumModelAdmin(admin.ModelAdmin):
 
             if form.cleaned_data['zip'] is not None:
                 zip_images = zipfile.ZipFile(form.cleaned_data['zip'])
-                for filename in sorted(zip_images.namelist()):
+                for filename in filter_zip_files(sorted(zip_images.namelist())):
                     file_name = os.path.basename(filename)
                     if not file_name:
                         continue
