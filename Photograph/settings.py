@@ -24,7 +24,7 @@ SECRET_KEY = '#c5w2kv2b-8ra5p1n2&9!y#*uekz%m#j+4!u08%of@fbbqs3t)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'photograph.jiayuanxu.com']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'photograph.xandery.top']
 
 # Application definition
 

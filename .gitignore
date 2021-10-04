@@ -3,3 +3,4 @@ media/
 static_collection/
 **/__pycache__/
 db.sqlite3
+*.conf
